@@ -4,32 +4,36 @@ import tushare as ts
 from flask import json
 
 
-TRANS = {"AvgPrice": "平均票价",
-         "AvpPeoPle": "场均人次",
-         "BoxOffice": "单日票房（万）",
-         "BoxOffice_Up": "环比变化 （%）",
-         "IRank": "排名",
-         "MovieDay": "上映天数",
-         "MovieName": "影片名",
-         "SumBoxOffice": "累计票房(万)",
-         "WomIndex": "口碑指数"
+TRANS = {"Attendance": "上座率",
+         "AvgPeople": "场均人次",
+         "CinemaName": "影院名称",
+         "RowNum": "排名",
+         "TodayAudienceCount": "当日观众人数",
+         "TodayBox": "当日票房",
+         "TodayShowCount": "当日场次",
+         "price": "场均票价（元）"
          }
 
+
 def get_day_cinema(day=None):
+    print(day)
     if day == None:
         try:
-            total = ts.day_boxoffice().to_csv().split()
+            total = ts.day_cinema().to_csv().split()
             head = [TRANS.get(i) for i in total[0].split(",")]
             body = [line.split(",") for line in total[1:]]
             result = {"head": head, "body": body}
         except Exception as e:
-            result = {"error": True, "message": e}
+            result = {"error": "true", "message": str(e)}
     else:
         try:
-            total = ts.day_boxoffice(day).to_csv().split()
+            total = ts.day_cinema(day).to_csv().split()
             head = [TRANS.get(i) for i in total[0].split(",")]
             body = [line.split(",") for line in total[1:]]
             result = {"head": head, "body": body}
         except Exception as e:
-            result = {"error": True, "message": "can not get the data, format date as YYYY-M-D"}
+            result = {"error": "true",
+                      "message": "can not get the data, format date as YYYY-M-D"}
+    print("result")
+    print(result)
     return result
