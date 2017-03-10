@@ -5,9 +5,11 @@ from .boxoffice import *
 
 app = Flask(__name__)
 if not app.debug:
+    import os
+    base_dir = os.path.split(os.path.realpath(__file__))[0]
     import logging
     from logging.handlers import RotatingFileHandler
-    file_handler = RotatingFileHandler('box-office.log', maxBytes=10*1024*1024,backupCount=5)
+    file_handler = RotatingFileHandler(base_dir+'/box-office.log', maxBytes=10*1024*1024,backupCount=5)
     file_handler.setLevel(logging.WARNING)
     app.logger.addHandler(file_handler)
 socketio = SocketIO(app)

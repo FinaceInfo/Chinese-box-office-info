@@ -5,7 +5,6 @@ from app import socketio
 
 from api import app as api
 
-from download import app as download
 
 manager = Manager(api)
 
@@ -13,9 +12,7 @@ SERVER = {
     "test": TestServer(app=api),
     "gevent": GeventServer(app=api),
     "testws": TestWsServer(app=wsapp,socketio=socketio),
-    "ws": WsServer(app=wsapp,socketio=socketio),
-    "testdownload":TestServer(app=download),
-    "geventdownload":GeventServer(app=download)
+    "ws": WsServer(app=wsapp,socketio=socketio)
 }
 
 
